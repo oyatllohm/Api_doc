@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+<link href="assets/images/favicon.png" rel="icon" />
+<title>API Documentation</title>
+<meta name="description" content="Your ThemeForest item Name and description">
+<meta name="author" content="harnishdesign.net">
+
+
+<link rel="stylesheet" type="text/css" href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" />
+
+<link rel="stylesheet" type="text/css" href="/static/assets/vendor/font-awesome/css/all.min.css" />
+
+<link rel="stylesheet" type="text/css" href="/static/assets/vendor/magnific-popup/magnific-popup.min.css" />
+
+<link rel="stylesheet" type="text/css" href="/static/assets/vendor/highlight.js/styles/github.css" />
+
+<link rel="stylesheet" type="text/css" href="/static/assets/css/stylesheet.css" />
+
+</head>
+
+<body data-spy="scroll" data-target=".idocs-navigation" data-offset="125">
+
+<!-- Preloader -->
+<div class="preloader">
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<!-- Preloader End --> 
+
+<!-- Document Wrapper   
+=============================== -->
+<div id="main-wrapper"> 
+  
+  <!-- Header
+  ============================ -->
+  <header id="header" class="sticky-top"> 
+    <!-- Navbar -->
+    <nav class="navvbar primary-menu navbar navbar-expand-lg navbar-dropdown-dark">
+      <div class="container-fluid">
+        <!-- Sidebar Toggler -->
+		<button id="sidebarCollapse" class="navbar-toggler d-block d-md-none" type="button"><span></span><span class="w-75"></span><span class="w-50"></span></button>
+		
+		<!-- Logo --> 
+        <a class="logo ml-md-3" href="index.html" title="iDocs Template"> <img src="/static/assets/images/logo.png" alt="iDocs Template"/> </a> 
+		
+        <!-- Logo End -->
+        
+		<!-- Navbar Toggler -->
+		<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#header-nav"><span></span><span></span><span></span></button>
+        
+		
+        <ul class="social-icons social-icons-sm ml-lg-2 mr-2">
+          <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/harnishdesign/" target="_blank" title="" data-original-title="Twitter"><i class="fab fa-twitter"></i></a></li>
+          <li class="social-icons-facebook"><a data-toggle="tooltip" href="http://www.facebook.com/harnishdesign/" target="_blank" title="" data-original-title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+          <li class="social-icons-dribbble"><a data-toggle="tooltip" href="http://www.dribbble.com/harnishdesign/" target="_blank" title="" data-original-title="Dribbble"><i class="fab fa-dribbble"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Navbar End --> 
+  </header>
+  <!-- Header End --> 
+  
+  <!-- Content
+  ============================ -->
+  <div id="content" role="main">
+    
+	<!-- Sidebar Navigation
+	============================ -->
+	<div class="idocs-navigation bg-light">
+    
+      <ul class="nav flex-column ">
+        {% for department in departments %}
+        <li class="nav-item"><a class="nav-link active" href="#department_{{ department.id }}">{{ department.name }}</a>
+
+          <ul class="nav flex-column">
+            {% for themes in department.themes.all %}
+            <li class="nav-item"><a class="nav-link" href="#department_{{ department.id }}_{{ themes.id }}">{{ themes.name }}</a></li>
+            {% endfor %}
+          </ul>
+
+        </li>
+        {% endfor %}
+      </ul>
+
+    </div>
+    
+    <!-- Docs Content
+	============================ -->
+    <div class="idocs-content">
+      <div class="container"> 
+
+        {% for department in departments.all %}
+          <h2 id="department_{{ department.id }}">{{ department.name }}</h2>
+
+          {% for theme in department.themes.all  %}
+            <h3 style="color: rgb(0, 86, 236) ;" id="department_{{ department.id }}_{{ theme.id }}">{{ theme.name }}</h3>
+
+            <!-- Pre_section start-->
+            {% for pre in theme.pre_section.all  %}
+
+              <h2>{{ pre.name}}</h2>
+              <p class="lead">{{ pre.title }}</p>
+
+              
+                <pre>
+                  <code class="html" style="line-height: 2 ;">
+                  {{ pre.tags| safe }}
+                  </code>
+                </pre>
+              
+            {% endfor %}
+            <!-- Pre_section end -->
+
+            <!-- Simple start-->
+
+            {% for simple in theme.simple_section.all  %}
+
+              <h4>{{ simple.name}}</h4>
+              <p class="lead">{{ simple.title }}</p>
+
+               
+                <pre>
+                  <code class="html" style="line-height: 5px ; background: none;">
+                  {{ simple.ck_text| safe }}
+                  </code>
+                </pre>
+              
+                
+              
+            {% endfor %}
+
+
+            
+           
+            
+
+            
+
+            <!-- Simple end -->
+
+            <!-- Table section start -->
+
+            {% for table in theme.table_sections.all %}
+            <h3>{{ table.name }}</h3>
+            <table class="table table-bordered">
+                        
+              <thead>
+                <tr>
+                  {% for th in table.th %}
+                  <th scope="col">{{ th }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+
+              <tbody>
+
+                {% for trs in table.tr_td.all %}
+                <tr></tr>
+                {% for tr in trs.td %}
+                    <td>{{ tr }}</td>
+                  {% endfor %}
+                {% endfor %}
+
+              </tbody>
+
+              
+            </table>
+
+            {% endfor%}
+
+            
+                            
+
+            <!-- Table section end -->
+
+
+          {% endfor %}
+
+          
+
+        {% endfor %}
+        
+        
+      
+         
+  <!-- Content end --> 
+  
+  
+</div>
+<!-- Document Wrapper end --> 
+
+<!-- Back To Top --> 
+<a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a> 
+
+<!-- JavaScript
+============================ -->
+<script src="/static/assets/vendor/jquery/jquery.min.js"></script> 
+<script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<!-- Highlight JS -->
+<script src="/static/assets/vendor/highlight.js/highlight.min.js"></script> 
+<!-- Easing --> 
+<script src="/static/assets/vendor/jquery.easing/jquery.easing.min.js"></script> 
+<!-- Magnific Popup --> 
+<script src="/static/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script> 
+<!-- Custom Script -->
+<script src="/static/assets/js/theme.js"></script>
+</body>
+</html>
